@@ -417,6 +417,12 @@
                             Here</a></td>
                 </tr>
                 <tr>
+                    <td>Tax Calculation - Exempt Institutions</td>
+                    <td id="center"><a
+                            href="https://drive.google.com/uc?export=download&id=1zv7mVRsauqZWN13nkTBw0AIrui8VCv4m">Click
+                            Here</a></td>
+                </tr>
+                <tr>
                     <td>>VAT Reconciliation - Odds & Evens</td>
                     <td id="center"><a
                             href="https://drive.google.com/uc?export=download&id=19vPm_FNps5wMdloWCo9T-diTbCqyYS8-">Click
@@ -802,20 +808,25 @@
 
 
     <script>
-        function filterTable() {
+        function filterTable()
+        {
             const input = document.getElementById('searchInput');
             const filter = input.value.toUpperCase();
             const tables = document.querySelectorAll('.original-table'); // Notice this line
 
             let filteredData = [];
 
-            tables.forEach((table) => {
+            tables.forEach((table) =>
+            {
                 const rows = table.querySelectorAll('tbody tr');
-                rows.forEach((row) => {
+                rows.forEach((row) =>
+                {
                     const cell = row.querySelector('td:first-child');
-                    if (cell) {
+                    if (cell)
+                    {
                         const text = cell.textContent || cell.innerText;
-                        if (text.toUpperCase().indexOf(filter) > -1) {
+                        if (text.toUpperCase().indexOf(filter) > -1)
+                        {
                             filteredData.push(row.outerHTML);
                         }
                     }
@@ -835,9 +846,11 @@
                                         </tbody>
                                     </table>`;
 
-            if (filteredData.length > 0) {
+            if (filteredData.length > 0)
+            {
                 document.getElementById('filteredResults').innerHTML = filteredTable;
-            } else {
+            } else
+            {
                 document.getElementById('filteredResults').innerHTML = "No results found";
             }
         }
