@@ -1,866 +1,1253 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,500i,600" rel="stylesheet">
-    <link rel="icon" href="favicon.png">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap" rel="stylesheet">
+    <link rel="icon" href="//khfs-nas/Templates/Website/favicon.png">
+    <title>H&W Templates Hub</title>
     <style>
-        body {
+        /* --- PASTE YOUR EXISTING CSS HERE --- */
+        :root {
+            --bg-color: #f0f2f5;
+            /* Light grey background */
+            --card-bg: #ffffff;
+            /* White cards */
+            --primary-color: rgb(196 5 5);
+            /* A strong blue */
+            --secondary-color: #007bff;
+            /* A slightly lighter blue */
+            --text-color: #333;
+            /* Dark grey text */
+            --heading-color: #1a253c;
+            /* Dark blue/grey for headings */
+            --border-color: #e1e4e8;
+            /* Light border */
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --hover-shadow-color: rgba(0, 0, 0, 0.47);
+            --link-color: var(--secondary-color);
+            --link-hover-color: var(--primary-color);
+            --button-bg: var(--primary-color);
+            --button-hover-bg: #f87777;
+            /* Darker blue on hover */
+            --button-text: #ffffff;
+            --font-family: 'Montserrat', sans-serif;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-image: url("bg5.jpg");
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            /* Applying the background image with an overlay for better text contrast */
+            background-image: linear-gradient(#ffffffd9, rgba(255, 183, 183, 0.95)), url('//khfs-nas/Templates/Website/bg5.jpg');
+            /* background-image: linear-gradient(rgba(240, 242, 245, 0.85), rgba(240, 242, 245, 0.95)), url(https://drive.google.com/uc?export=view&id=1F5Sisp3dGw8B3SaoXmdhUp_o86Oxhs77); */
             background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 20px;
         }
 
         h1 {
-            font-family: 'Montserrat', sans-serif;
-            color: black;
-            margin: 20;
-            padding-top: 20;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--heading-color);
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
-        table {
-            border-collapse: collapse;
-            font-size: 15px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 450;
-            width: 800px;
-            margin: 20;
-        }
-
-        table caption {
-            background-color: rgba(127, 255, 212, 0.473);
-            font-size: 23;
-            padding-bottom: 10;
-            text-align: center;
-            padding-top: 7;
-            border: 2px solid rgba(76, 147, 175, 0.63);
-            border-bottom: none;
-        }
-
-        thead {
-            display: table-header-group;
-            vertical-align: middle;
-        }
-
-        table thead td {
-            border: 2px solid rgba(76, 147, 175, 0.63);
-            padding: 5px;
-            text-align: center;
-            color: black;
-            font-weight: 900;
-        }
-
-        #theadtdwidth {
-            width: 550px;
-        }
-
-        tbody {
-            display: table-row-group;
-            vertical-align: middle;
-        }
-
-        table tbody td {
-            border: 2px solid rgba(76, 147, 175, 0.63);
-            padding: 5px;
-            text-align: left;
-            color: black;
-        }
-
-        table a:hover {
-            color: white;
-        }
-
-
-        table a {
-            text-decoration: none;
-            color: blue;
-        }
-
-        #center {
-            text-align: center;
-        }
-
-        #left {
-            column-width: 400px;
+        .search-container {
+            margin-bottom: 40px;
+            /* Adjusted margin to create space for results */
+            display: flex;
+            justify-content: center;
+            position: relative;
+            /* Needed for potential absolute positioning if required later */
+            z-index: 10;
+            /* Ensure search bar stays above results visually */
         }
 
         #searchInput {
-            margin-left: 20;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 15;
+            font-family: var(--font-family);
+            font-size: 1rem;
+            padding: 12px 20px;
+            width: 60%;
+            max-width: 500px;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            /* Rounded corners */
+            box-shadow: 0 2px 5px var(--shadow-color);
+            transition: all 0.3s ease;
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2);
+        }
+
+        /* Style for the moved filtered results container */
+        #filteredResults {
+            margin-top: -20px;
+            /* Pull results slightly closer to search */
+            margin-bottom: 40px;
+            /* Add space before the first category */
+            /* Add other styles if needed, like background or padding */
+            /* background-color: rgba(255, 255, 255, 0.7); */
+            /* backdrop-filter: blur(5px); */
+            /* border-radius: 12px; */
+            /* padding: 20px; */
+            /* box-shadow: 0 5px 15px var(--shadow-color); */
+        }
+
+        #filteredResults h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--heading-color);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            display: inline-block;
+            padding-left: 10px;
+            /* Add some padding if results have a background */
+            padding-right: 10px;
+        }
+
+        /* Ensure grid layout applies to filtered results */
+        #filteredResults .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        #noResults {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-top: 20px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+        }
+
+
+        .category-section {
+            background-color: rgba(255, 255, 255, 0.7);
+            /* Slightly transparent white */
+            backdrop-filter: blur(5px);
+            /* Frosted glass effect */
+            border-radius: 12px;
+            margin-bottom: 40px;
+            padding: 30px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: all 0.3s ease;
+        }
+
+        .category-section h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--heading-color);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            display: inline-block;
+            /* Keep border only under text */
+        }
+
+        .template-grid {
+            display: grid;
+            /* Responsive grid: adjusts columns based on available width */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            /* Spacing between cards */
+        }
+
+        .template-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 3px 8px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            /* Pushes button to bottom */
+            justify-content: space-between;
+            min-height: 120px;
+            /* Ensure cards have a minimum height */
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+            /* Subtle lift effect */
+            box-shadow: 0 6px 12px var(--hover-shadow-color);
+        }
+
+        .template-name {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            /* Space between name and button */
+            flex-grow: 1;
+            /* Allows name to take up available space */
+        }
+
+        /* Special styling for indented items (like sub-points) */
+        .template-name.indented {
+            padding-left: 1.5em;
+            position: relative;
+        }
+
+        .template-name.indented::before {
+            content: "-";
+            position: absolute;
+            left: 0.5em;
+            color: var(--text-color);
+        }
+
+        /* Styling for descriptive lines (like 'Regarding Audits:') */
+        .template-description {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--heading-color);
+            margin-bottom: 10px;
+            grid-column: 1 / -1;
+            /* Make description span full width */
+            padding-top: 10px;
+        }
+
+
+        .template-link {
+            display: inline-block;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 5px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            align-self: flex-start;
+            /* Align button to the left */
+        }
+
+        .template-link:hover {
+            background-color: var(--button-hover-bg);
+            transform: scale(1.03);
+            /* Slight zoom on hover */
+            color: var(--button-text);
+            /* Ensure text color stays white */
+        }
+
+        /* Hide original sections when searching */
+        .hidden {
+            display: none;
+        }
+
+        /* Footer - Optional, but adds a nice touch */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        #lists-resources-section {
+            margin-top: 0px;
+            /* Reset margin if filtered results handle spacing */
+        }
+
+        .template-card-description {
+            font-size: 0.85rem;
+            /* Slightly smaller than the name */
+            color: #555;
+            /* A slightly muted grey */
+            margin-top: 5px;
+            /* Space between name and description */
+            margin-bottom: 15px;
+            /* Space between description and button */
+            line-height: 1.4;
+            /* Adjust line spacing if needed */
+            font-weight: 400;
+            /* Normal weight */
+            flex-grow: 0;
+            /* Ensure it doesn't try to expand */
+        }
+
+        /* --- Jump to Section Dropdown Styles --- */
+        .jump-to-section-container {
+            position: relative;
+            /* Needed for absolute positioning of dropdown */
+            display: flex;
+            justify-content: center;
+            /* Center the button */
+            margin-bottom: 20px;
+            /* Space below the button */
+            z-index: 20;
+            /* Ensure it's above search results potentially */
+        }
+
+        .jump-button {
+            font-family: var(--font-family);
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 10px 20px;
+            background-color: var(--secondary-color);
+            /* Use secondary blue */
+            color: var(--button-text);
+            border: none;
+            border-radius: 25px;
+            /* Match search bar rounding */
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            /* Align text and arrow */
+            align-items: center;
+            box-shadow: 0 2px 5px var(--shadow-color);
+            margin-bottom: 20px;
+        }
+
+        .jump-button:hover {
+            background-color: var(--primary-color);
+            /* Darker blue on hover */
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        .jump-button .arrow {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .jump-button.active .arrow {
+            transform: rotate(180deg);
+            /* Point arrow up when open */
+        }
+
+        .dropdown-content {
+            display: none;
+            /* Hidden by default */
+            position: absolute;
+            top: 100%;
+            /* Position below the button */
+            left: 50%;
+            /* Start positioning from center */
+            transform: translateX(-50%);
+            /* Center align the dropdown */
+            background-color: var(--card-bg);
+            min-width: 250px;
+            /* Adjust as needed */
+            box-shadow: 0 8px 16px 0px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 10px 0;
+            z-index: 21;
+            /* Above button */
+            max-height: 40vh;
+            /* Limit height and allow scrolling */
+            overflow-y: auto;
+            /* Enable vertical scroll if needed */
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 10px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.95rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            white-space: nowrap;
+            /* Prevent wrapping */
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--bg-color);
+            /* Light grey hover */
+            color: var(--primary-color);
+        }
+
+        .dropdown-content.show {
+            display: block;
+            /* Show the dropdown */
         }
     </style>
-    <title>H&W TEMPLATES</title>
 </head>
 
 <body>
 
-    <div>
-        <h1>All Holdstock & Watson Templates</h1>
-    </div>
+    <div class="container">
+        <header>
+            <h1>Holdstock & Watson Inc. Hub</h1>
+        </header>
 
-    <!-- Filter Div - Test -->
-    <div>
-        <input type="text" id="searchInput" placeholder="Search for templates..." onkeyup="filterTable()">
-    </div>
-    <div id="filteredResults">
-        <!-- Filtered table will be populated here -->
-    </div>
-
-    <div>
-        <table class="original-table">
-            <caption>H&W Policies</caption>
-            <thead>
-                <tr>
-                    <td id="theadtdwidth">POLICY NAME</td>
-                    <td>ONLINE VERSION</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Application for Leave (H&W)</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/uc?export=download&id=1q1sUF_0yY92Uted-xn9OXvNZKIJvIkk4">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Application for Leave (KHFS)</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/uc?export=download&id=1cFy2CcgCTgY1ITrEQPP3flkHfcX5U6hC">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Application for Overtime</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1adutF59g17lrWiWkuJR1ZMiobkuQavyC">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Explanation of Overtime</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1a2J6MgZbo99JsD-wWFF5HWWH0YW75yMj">Click
-                            Here</a>
-                    </td>
-                </tr>
-                <td>IT Policy Document</td>
-                <td id="center"><a target="_blank"
-                        href="https://drive.google.com/file/d/1dIxDgU4j4ijnN67sQoqWSRZjpRBKuzJo/view?usp=drive_link">Click
-                        Here</a></td>
-                </tr>
-                <tr>
-                    <td>Office Policies</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/file/d/1E1gSqv1pobKnyuTbaffrZntprxI3zVvH/view?usp=drive_link">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Overtime Policy</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/file/d/1OCqJiiwjm3fv82MAhCmhOlzd_5g4DWlN/view?usp=drive_link">Click
-                            Here</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div>
-        <table class="original-table">
-            <caption>Process Flows</caption>
-            <thead>
-                <tr>
-                    <td id="theadtdwidth">TEMPLATE NAME</td>
-                    <td>ONLINE VERSION</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Process Flow - Financial Statements</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/file/d/1kK3zn-0n3mUzwcvJKpYOL_-iOYmn0lEm/view?usp=drive_link">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Process Flow - Audit File List on Asana</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/file/d/1B8onlh75SaZZsNbjMJ3-KfQJc5Ah3twL/view?usp=drive_link">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Process Flow - Company Provisional Taxes</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/file/d/13OH3TLnF5qetTXOTKH9Lk2UqRrtvmHtB/view?usp=drive_link">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Process Flow - Individuals Provisionals</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/file/d/10U5JxHOB_jKhJS4BUDaNKB9EyiqRtx4u/view?usp=drive_link">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Process Flow - New Clients</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/file/d/1P4rIFbyXM8hV-5mQI6Nk9Q4C_0CTcC8F/view?usp=drive_link">Click
-                            Here</a></td>
-                </tr>
-            </tbody>
-        </table>
-        <table class="original-table">
-            <caption>AFS Templates</caption>
-            <thead>
-                <tr>
-                    <td id="theadtdwidth">TEMPLATE NAME</td>
-                    <td>ONLINE VERSION</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td id="left">Private Company</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1Rv_LHXAMlABCDF9bXL78tmCRRKLmDNed">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Close Corporation</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=136QxVd-0w3hFRRnLWVJxPfy5yoJsyxKm">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Non-Profit Company</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1SF_uCA9UyKb7RgRAHbctlSZYbcqj9cbY">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Trust</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1LUqW4quKz5htwQ14bhzqsHgYuk5qs79p">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Church</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=18Oui-yH4cOcypKX-fmyIKEVffYj5tc4E">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Sole Prop</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=18fVQ1a8UTlZBSAdcWJGRW8xJGTsegALs">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td colspan="2"></td>
-                </tr>
-                <tr>
-                    <td>KHFS AFS Letterhead</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/file/d/1VUjEYrdEQFrh7Ls34NB-HJQATihn0iBW/view?usp=drive_link">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>H&W AFS Letterhead</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/file/d/1KdCDYA9pacNP0RLzsggING7OzmTRJwMP/view?usp=drive_link">Click
-                            Here</a></td>
-                </tr>
+        <!-- Jump to Section Dropdown -->
+        <div class="jump-to-section-container">
+            <button id="jumpToSectionBtn" class="jump-button">
+                Jump to Section <span class="arrow">▼</span> <!-- Down arrow -->
+            </button>
+            <div id="jumpToSectionDropdown" class="dropdown-content">
+                <!-- Links will be populated by JavaScript -->
+            </div>
+        </div>
 
 
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search for Templates & Links to Specific Lists..."
+                onkeyup="filterTemplates()">
+        </div>
+        <div id="filteredResults">
+            <!-- Filtered cards will be populated here by JavaScript -->
+        </div>
+        <!-- Lists & Resources Section -->
+        <section class="category-section" id="google-links-section">
+            <h2>All Google Links</h2>
+            <div class="template-grid">
+                <!-- === ADD YOUR 14 LIST LINKS BELOW === -->
+                <!-- Replace placeholders with actual names, links, and search terms -->
 
-            </tbody>
-        </table>
-    </div>
+                <div class="template-card" data-search-term="Client List">
+                    <p class="template-name">Client List</p>
+                    <p class="template-card-description">List of ALL Clients & the Services we provide them</p><a
+                        href="https://docs.google.com/spreadsheets/d/15yWtNN8-I3kcVkZJ4hsV9NXfnrexaEWSenlbbrOrIW8/edit?gid=0#gid=0"
+                        class="template-link">Client List (Google Sheet)</a>
+                </div>
+                <div class="template-card" data-search-term="AFS List">
+                    <p class="template-name">AFS List</p>
+                    <p class="template-card-description">List of Outstanidng AFS | AFS Completed List | Recurring
+                        Services List</p><a
+                        href="https://docs.google.com/spreadsheets/d/123kLsGLtkbaFSKXVMn_5spe3o591Rb4nTb34wShOnF8/edit?gid=0#gid=0"
+                        class="template-link">AFS List (Google Sheet)</a>
+                </div>
+                <div class="template-card" data-search-term="Audit List">
+                    <p class="template-name">Audit List</p>
+                    <p class="template-card-description">Audit Schedule | Stock Take Schedule |Audit File Lockdown List
+                    </p><a
+                        href="https://docs.google.com/spreadsheets/d/14LfcDKLiArHjIPcBOX7EKcDBJx2rRnx-TUsCzKG-Vg4/edit?gid=878744923#gid=878744923"
+                        class="template-link">Audit List (Google Sheet)</a>
+                </div>
+                <div class="template-card" data-search-term="Provisionals - Entity & Individual">
+                    <p class="template-name">Provisionals | Entity & Individual</p>
+                    <p class="template-card-description">Comprehensive list of all Provisional Clients for 1st, 2nd &
+                        3rd Provisional</p><a
+                        href="https://docs.google.com/spreadsheets/d/1SfHOrV7R-NSrFBN56Kg76zmHUHdn0p5Z_Zoc-ZM1MTs/edit?gid=0#gid=0"
+                        class="template-link">Provisionals (Google Sheet)</a>
+                </div>
+                <div class="template-card" data-search-term="Entity Administration">
+                    <p class="template-name">Entity Administration</p>
+                    <p class="template-card-description">CIPC Changes | SARS Matters | DWT Schedule | Deregistrations |
+                        Estates</p><a
+                        href="https://docs.google.com/spreadsheets/d/1viaMX3HLibddOOJPgkT_kHfL_Mwgb53KGSu4wSuqH-E/edit?gid=0#gid=0"
+                        class="template-link">Entity Admin (Google Sheet)</a>
+                </div>
+                <div class="template-card" data-search-term="CIPC List">
+                    <p class="template-name">CIPC List</p>
+                    <p class="template-card-description">All things related to CIPC | Beneficial Ownership (CIPC)</p><a
+                        href="https://docs.google.com/spreadsheets/d/1e97L43PaSuUyNMA9scwf6A9abgeD0Yswbs7jf7Cb4A0/edit?gid=516895678#gid=516895678"
+                        class="template-link">CIPC List (Google Sheet)</a>
+                </div>
+                <div class="template-card" data-search-term="ITR14 Returns List">
+                    <p class="template-name">ITR14 Returns List</p>
+                    <p class="template-card-description">Complete list of all Company Tax Returns filed & by Whom </p><a
+                        href="https://docs.google.com/spreadsheets/d/1PcD4ez3ep69v22uIahi3fNWiLJIYeVLt1goY9ajhV0g/edit?gid=1083535144#gid=1083535144"
+                        class="template-link">ITR14 (Google Sheet)</a>
+                </div>
+                <div class="template-card" data-search-term="ITR12TR Returns List">
+                    <p class="template-name">ITR12TR Returns List</p>
+                    <p class="template-card-description">Complete list of all Trust Tax Returns filed & by Whom </p><a
+                        href="https://docs.google.com/spreadsheets/d/1xq5prPt4DoHn62MgssW7TSA-u_bPw4k8N1Nh3X0tG4Q/edit?gid=1764135183#gid=1764135183"
+                        class="template-link">ITR12TR (Google Sheet)</a>
+                </div>
+                <div class="template-card" data-search-term="IT12EI Returns List">
+                    <p class="template-name">IT12EI Returns List</p>
+                    <p class="template-card-description">Complete list of all Exempt Institute Tax Returns filed & by
+                        Whom </p><a
+                        href="https://docs.google.com/spreadsheets/d/1Ozo0h3Gomfg63p-hlmL85CiMP_h_sI8f_ARM7I35EhQ/edit?gid=1232330010#gid=1232330010"
+                        class="template-link">IT12EI (Google Sheet)</a>
+                </div>
+                <div class="template-card" data-search-term="Personal Tax Returns">
+                    <p class="template-name">Personal Tax Returns</p>
+                    <p class="template-card-description">List of Personal Tax Returns Outstanding | Completed | Due
+                        Dates | SOA Balances</p><a
+                        href="https://docs.google.com/spreadsheets/d/1Og00CUUNcQ-9cJX3CF6dthi1dmx8C92FjmHRc6RZ5qM/edit?gid=1216599286#gid=1216599286"
+                        class="template-link">Personal Tax (Google Sheet)</a>
+                </div>
+                <!-- === End of List Links === -->
+            </div>
+        </section>
 
-    <div>
-        <table class="original-table">
-            <caption>Billing Templates</caption>
-            <thead>
-                <tr>
-                    <td id="theadtdwidth">TEMPLATE NAME</td>
-                    <td>ONLINE VERSION</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Billing Template</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1PNf4omG29BqPzqXCv1Q8GmH07NVmxMnv">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Billing Process</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/file/d/1grGs7bPmeUdwDNvaG2_ZJCmq0ycOE-Yt/view?usp=drive_link">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Charge Out Rates</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/file/d/1hNzMzo6vBnfUMpAcxNot1vpmxuihy3Tg/view?usp=drive_link">Click
-                            Here</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <!-- Removed the #allTemplates wrapper div as it's no longer needed for the JS logic -->
+        <!-- <div id="allTemplates"> -->
 
-    <div>
-        <table class="original-table">
-            <caption>Annual Books / Annual Audit Templates</caption>
-            <thead>
-                <tr>
-                    <td id="theadtdwidth">TEMPLATE NAME</td>
-                    <td>ONLINE VERSION</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="2">Regarding Audits:</td>
-                </tr>
-                <tr>
-                    <td style="text-indent: 1em;">- Audit File Checklist (Complete)</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1sGjgtyd3MPYkn8jzQbl4CfMx1iahnhTw">Click
-                            Here</a></td>
-                </tr>
+        <!-- H&W Policies Section -->
+        <section class="category-section" id="internal-docs-section">
+            <h2>Holdstock & Watson Internal Documents</h2>
+            <div class="template-grid">
+                <!-- Application for Leave (H&W) -->
+                <div class="template-card" data-search-term="Application for Leave H&W PDF policy">
+                    <p class="template-name">Application for Leave (H&W)</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/uc?export=download&id=1q1sUF_0yY92Uted-xn9OXvNZKIJvIkk4"
+                        class="template-link">Open PDF</a>
+                </div>
+                <!-- Application for Leave (KHFS) -->
+                <div class="template-card" data-search-term="Application for Leave KHFS PDF policy">
+                    <p class="template-name">Application for Leave (KHFS)</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/uc?export=download&id=1cFy2CcgCTgY1ITrEQPP3flkHfcX5U6hC"
+                        class="template-link">Open PDF</a>
+                </div>
+                <!-- Application for Overtime -->
+                <div class="template-card" data-search-term="Application for Overtime excel policy">
+                    <p class="template-name">Application for Overtime</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1adutF59g17lrWiWkuJR1ZMiobkuQavyC"
+                        class="template-link">Open
+                        Excel</a>
+                </div>
+                <!-- Explanation of Overtime -->
+                <div class="template-card" data-search-term="Explanation of Overtime excel policy">
+                    <p class="template-name">Explanation of Overtime</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1a2J6MgZbo99JsD-wWFF5HWWH0YW75yMj"
+                        class="template-link">Open
+                        Excel</a>
+                </div>
+                <!-- IT Policy Document -->
+                <div class="template-card" data-search-term="IT Policy Document PDF policy information technology">
+                    <p class="template-name">IT Policy Document</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/file/d/1dIxDgU4j4ijnN67sQoqWSRZjpRBKuzJo/view?usp=drive_link"
+                        class="template-link">Open PDF</a>
+                </div>
+                <!-- Office Policies -->
+                <div class="template-card" data-search-term="Office Policies PDF policy procedure">
+                    <p class="template-name">Office Policies</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/file/d/1E1gSqv1pobKnyuTbaffrZntprxI3zVvH/view?usp=drive_link"
+                        class="template-link">Open PDF</a>
+                </div>
+                <!-- Overtime Policy -->
+                <div class="template-card" data-search-term="Overtime Policy Document PDF policy">
+                    <p class="template-name">Overtime Policy</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/file/d/1OCqJiiwjm3fv82MAhCmhOlzd_5g4DWlN/view?usp=drive_link"
+                        class="template-link">Open PDF</a>
+                </div>
+            </div>
+        </section>
 
-                <tr>
-                    <td style="text-indent: 1em;">- Electronic Audit File Template</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1RqJiiztTCtnglXoHrgt9IBU8vPZosdpj">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Amortization Schedule Skeleton</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1Wr15VsifKNfkIbAhjJ4AxmiDhI9M2frL">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Capital Gains Tax</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1Wn-FJOLdR5KxYg6m5Xawvoms6x2p4xUu">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Capital Gains Tax - TAB</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1MiWY3QNQwG1JPnN2vhQpdOTTGgaOndVr">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Deferred Tax Asset Register</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=15AhYxwCZGD8f4s_XutKnbO7ivzK9rI4O">Click
-                            Here</a></td>
-                </tr>
+        <!-- Process Flows Section -->
+        <section class="category-section" id="process-flows-section">
+            <h2>Process Flows</h2>
+            <div class="template-grid">
+                <div class="template-card" data-search-term="Process Flow Financial Statements PDF guide workflow">
+                    <p class="template-name">Process Flow - Financial Statements</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/file/d/1kK3zn-0n3mUzwcvJKpYOL_-iOYmn0lEm/view?usp=drive_link"
+                        class="template-link">Open PDF</a>
+                </div>
+                <!-- <div class="template-card" data-search-term="Process Flow Audit File List on Asana TXT guide workflow">
+                    <p class="template-name">Process Flow - Audit File List on Asana</p>
+                    <a target="_blank"
+                       href="https://drive.google.com/file/d/1B8onlh75SaZZsNbjMJ3-KfQJc5Ah3twL/view?usp=drive_link"
+                        class="template-link">Open TXT</a>
+                </div> -->
+                <div class="template-card" data-search-term="Process Flow Company Provisional Taxes PDF guide workflow">
+                    <p class="template-name">Process Flow - Company Provisional Taxes</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/file/d/13OH3TLnF5qetTXOTKH9Lk2UqRrtvmHtB/view?usp=drive_link"
+                        class="template-link">Open PDF</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="Process Flow Individuals Provisionals Taxes PDF guide workflow">
+                    <p class="template-name">Process Flow - Individuals Provisionals</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/file/d/10U5JxHOB_jKhJS4BUDaNKB9EyiqRtx4u/view?usp=drive_link"
+                        class="template-link">Open PDF</a>
+                </div>
+                <div class="template-card" data-search-term="Process Flow New Clients onboarding PDF guide workflow">
+                    <p class="template-name">Process Flow - New Clients</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/file/d/1P4rIFbyXM8hV-5mQI6Nk9Q4C_0CTcC8F/view?usp=drive_link"
+                        class="template-link">Open PDF</a>
+                </div>
+            </div>
+        </section>
 
-                <tr>
-                    <td>Finance Lease Schedule</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1Q7UF85KJTb1rTUU0-AZLEEm96Tdy0T2k">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Financial Completion Checklist</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1mDBBQDZ8BERYgDEvcO-qH1IRnteOXpaZ">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>NPO Income Tax Note</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/file/d/1P-LX4_oCkJIlrEoXrTT-d_YETgIsieMv/view?usp=drive_link">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Prepayments Schedule</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1YvDpOdUSi6y3OeYW879NISHh_RpaUp7J">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Public Interest Score</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1oMTtJ6VGdtOq9bxaHWQET5A-fxHh2oki">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Public Interest Score (Detailed)</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1dJo1SWxK0HZyHh4mWxyzhxsFzPYcS_S3">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Shareholders Loan Analysis Example - Monthly</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=18ruO491QJx5PJ01RNu_HHHnmZ9zGObeP">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Shareholding - Share Summary</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1ZTcaEyC6LA_YdRviuBrsj2pVxRxKwFoP">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Shareholding - Share Certificate</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1QcrNrSAv8jN1g1vMrmYrB2DLKaiEUuOv">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Tax Calculation</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1rV-CwW9-A9x5dwb9t6lFRfS0z_RnXcwn">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Tax Calculation - Exempt Institutions</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1zv7mVRsauqZWN13nkTBw0AIrui8VCv4m">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>>VAT Reconciliation - Odds & Evens</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=19vPm_FNps5wMdloWCo9T-diTbCqyYS8-">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>>VAT Reconciliation - Farming</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1S8aWIvDYeiMdXGd30fFDSfOuzTVeNjW2">Click
-                            Here</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <!-- AFS Templates Section -->
+        <section class="category-section" id="afs-templates-section">
+            <h2>AFS Templates</h2>
+            <div class="template-grid">
+                <div class="template-card" data-search-term="AFS Private Company Pty Ltd XLSM financial statement">
+                    <p class="template-name">Private Company</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1Rv_LHXAMlABCDF9bXL78tmCRRKLmDNed"
+                        class="template-link">Open
+                        XLSM</a>
+                </div>
+                <div class="template-card" data-search-term="AFS Close Corporation CC XLSM financial statement">
+                    <p class="template-name">Close Corporation</p>
+                    <a href="https://drive.google.com/uc?export=download&id=136QxVd-0w3hFRRnLWVJxPfy5yoJsyxKm"
+                        class="template-link">Open
+                        XLSM</a>
+                </div>
+                <div class="template-card" data-search-term="AFS Non-Profit Company NPC XLSM financial statement">
+                    <p class="template-name">Non-Profit Company</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1SF_uCA9UyKb7RgRAHbctlSZYbcqj9cbY"
+                        class="template-link">Open
+                        XLSM</a>
+                </div>
+                <div class="template-card" data-search-term="AFS Trust XLSM financial statement">
+                    <p class="template-name">Trust</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1LUqW4quKz5htwQ14bhzqsHgYuk5qs79p"
+                        class="template-link">Open
+                        XLSM</a>
+                </div>
+                <div class="template-card" data-search-term="AFS Church XLSM financial statement">
+                    <p class="template-name">Church</p>
+                    <a href="https://drive.google.com/uc?export=download&id=18Oui-yH4cOcypKX-fmyIKEVffYj5tc4E"
+                        class="template-link">Open
+                        XLSM</a>
+                </div>
+                <div class="template-card" data-search-term="AFS Sole Prop Proprietor XLSM financial statement">
+                    <p class="template-name">Sole Prop</p>
+                    <a href="https://drive.google.com/uc?export=download&id=18fVQ1a8UTlZBSAdcWJGRW8xJGTsegALs"
+                        class="template-link">Open
+                        XLSM</a>
+                </div>
+                <div class="template-card" data-search-term="KHFS AFS Letterhead PDF branding financial statement">
+                    <p class="template-name">KHFS AFS Letterhead</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/file/d/1VUjEYrdEQFrh7Ls34NB-HJQATihn0iBW/view?usp=drive_link"
+                        class="template-link">Open PDF</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="H&W AFS Letterhead Holdstock Watson PDF branding financial statement">
+                    <p class="template-name">H&W AFS Letterhead</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/file/d/1KdCDYA9pacNP0RLzsggING7OzmTRJwMP/view?usp=drive_link"
+                        class="template-link">Open PDF</a>
+                </div>
+            </div>
+        </section>
 
-    <div>
-        <table class="original-table">
-            <caption>Processing Templates</caption>
-            <thead>
-                <tr>
-                    <td id="theadtdwidth">TEMPLATE NAME</td>
-                    <td>ONLINE VERSION</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Pastel 12 Import Template</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1-IZ_eFjO1p7kh5iZoUxVq2Z4ltg-DF_x">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Pastel Bank Manager - CB Import</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=16y7xSfjDI06iCsg0XNnTNgxAMnX23ksY">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Pastel Bank Manager - CB Import (Expert Version)</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1qaJJo5FoRSljMXtOnKWbMZzhNjuekQcA">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Solver - Bank Recon Tool - 50 Limit</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1kdsUcJQE3c3yVi76jw0pftnZ_FipTXiv">Click
-                            Here</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <!-- Billing Templates Section -->
+        <section class="category-section" id="billing-templates-section">
+            <h2>Billing Templates</h2>
+            <div class="template-grid">
+                <div class="template-card" data-search-term="Billing Template excel invoice fee">
+                    <p class="template-name">Billing Template</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1PNf4omG29BqPzqXCv1Q8GmH07NVmxMnv"
+                        class="template-link">Open
+                        Excel</a>
+                </div>
+                <div class="template-card" data-search-term="Billing Process System Description PDF guide fee">
+                    <p class="template-name">Billing Process</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/file/d/1grGs7bPmeUdwDNvaG2_ZJCmq0ycOE-Yt/view?usp=drive_link"
+                        class="template-link">Open PDF</a>
+                </div>
+                <div class="template-card" data-search-term="Charge Out Rates TXT fee pricing">
+                    <p class="template-name">Charge Out Rates</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/file/d/1hNzMzo6vBnfUMpAcxNot1vpmxuihy3Tg/view?usp=drive_link"
+                        class="template-link">Open TXT</a>
+                </div>
+            </div>
+        </section>
 
-    <div>
-        <table class="original-table">
-            <caption>Provisional Tax Templates</caption>
-            <thead>
-                <tr>
-                    <td id="theadtdwidth">TEMPLATE NAME</td>
-                    <td>ONLINE VERSION</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="2">Provisional Tax Templates</td>
-                </tr>
-                <tr>
-                    <td style="text-indent: 1em;">- Provisional Tax Comp (Companies)</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1EHeyYeuNIKPqZEzHeia-16wTfCunI3gU">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td style="text-indent: 1em;">- Letter of Liability (Companies)</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=18-bNHtGuQsXZUSc7rTt6ICHudjm-q98T">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td style="text-indent: 1em;">- Email to Client Example (Companies)</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1VaglwwTDxb4V_ZuQGATU_5sEPdiKwYqy">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td colspan="2"></td>
-                </tr>
-                <tr>
-                    <td>Provisional Tax Comp (Individuals)</td>
-                    <td id="center"><a href=""></a></td>
-                </tr>
-                <tr>
-                    <td colspan="2"></td>
-                </tr>
-                <tr>
-                    <td style="text-indent: 1em;">- Provisional Tax Comp (Individuals)</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1bG4gtw0FPOQGouocoix7jJLtEjtOCBFU">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td style="text-indent: 1em;">- Provisional Tax Comp (Individuals) - BETA VERSION</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=10__liX4GeAUmnKa-Vzxaz9P_d7__DUUb">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td colspan="2"></td>
-                </tr>
-                <tr>
-                    <td colspan="2">Third Provisional Tax Templates</td>
-                </tr>
-                <tr>
-                    <td style="text-indent: 1em;">Third Provisional - Letter of Liability (Companies)</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1fxZfiSQltQ95Xm7taqVBlNG8jDYAhqQH">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td style="text-indent: 1em;">Third Provisional - Letter of Liability (Individuals)</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1iEmdaSHZt0BjjFf8IgJ5V9VpC6IvFOkV">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td style="text-indent: 1em;">Assessed Tax Letter of Liability</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1C2FGSaED5pm-pbWgLWr4d3xvIhezohRN">Click
-                            Here</a></td>
-                </tr>
-                <!-- <tr>
-                    <td colspan="3"></td>
-                </tr>
-                <tr>
-                    <td><a href="\\KHFS-NAS\Templates\Provisionals\2024 02 29\2024 01\Estimate vs Basic Amount Discussion.msg">Estimate vs Basic Amount Discussion (Click here to view)</a></td>
-                    <td id="center">It's Safe</td>
-                    <td></td>
-                </tr> -->
-            </tbody>
-        </table>
-    </div>
+        <!-- Annual Books / Annual Audit Templates Section -->
+        <section class="category-section" id="annual-books-audit-section">
+            <h2>Annual Books / Annual Audit Templates</h2>
+            <div class="template-grid">
+                <div class="template-card" data-search-term="Audit File Checklist Complete excel annual books">
+                    <p class="template-name">Audit File Checklist (Complete)</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1sGjgtyd3MPYkn8jzQbl4CfMx1iahnhTw"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card" data-search-term="Electronic Audit File Template ZIP archive annual books">
+                    <p class="template-name">Electronic Audit File Template</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1RqJiiztTCtnglXoHrgt9IBU8vPZosdpj"
+                        class="template-link">Open ZIP</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="Amortization Schedule Skeleton XLSM calculation annual books">
+                    <p class="template-name">Amortization Schedule Skeleton</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1Wr15VsifKNfkIbAhjJ4AxmiDhI9M2frL"
+                        class="template-link">Open XLSM</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="Capital Gains Tax CGT Calculation Example excel annual books">
+                    <p class="template-name">Capital Gains Tax</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1Wn-FJOLdR5KxYg6m5Xawvoms6x2p4xUu"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="Capital Gains Tax CGT TAB Time Apportionment Basis Calculator excel annual books">
+                    <p class="template-name">Capital Gains Tax - TAB</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1MiWY3QNQwG1JPnN2vhQpdOTTGgaOndVr"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card" data-search-term="Deferred Tax Asset Register XLSM calculation annual books">
+                    <p class="template-name">Deferred Tax Asset Register</p>
+                    <a href="https://drive.google.com/uc?export=download&id=15AhYxwCZGD8f4s_XutKnbO7ivzK9rI4O"
+                        class="template-link">Open XLSM</a>
+                </div>
+                <div class="template-card" data-search-term="Finance Lease Schedule XLSM calculation annual books">
+                    <p class="template-name">Finance Lease Schedule</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1Q7UF85KJTb1rTUU0-AZLEEm96Tdy0T2k"
+                        class="template-link">Open XLSM</a>
+                </div>
+                <div class="template-card" data-search-term="Financial Completion Checklist XLSM audit annual books">
+                    <p class="template-name">Financial Completion Checklist</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1mDBBQDZ8BERYgDEvcO-qH1IRnteOXpaZ"
+                        class="template-link">Open XLSM</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="NPO Income Tax Note Non Profit Organisation TXT annual books">
+                    <p class="template-name">NPO Income Tax Note</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/file/d/1P-LX4_oCkJIlrEoXrTT-d_YETgIsieMv/view?usp=drive_link"
+                        class="template-link">Open TXT</a>
+                </div>
+                <div class="template-card" data-search-term="Prepayments Schedule excel annual books">
+                    <p class="template-name">Prepayments Schedule</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1YvDpOdUSi6y3OeYW879NISHh_RpaUp7J"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card" data-search-term="Public Interest Scorecard excel PI Score annual books">
+                    <p class="template-name">Public Interest Score</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1oMTtJ6VGdtOq9bxaHWQET5A-fxHh2oki"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="Public Interest Score Calc Detailed excel PI Score annual books">
+                    <p class="template-name">Public Interest Score (Detailed)</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1dJo1SWxK0HZyHh4mWxyzhxsFzPYcS_S3"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="Shareholders Loan Analysis Example Monthly excel annual books">
+                    <p class="template-name">Shareholders Loan Analysis Example - Monthly</p>
+                    <a href="https://drive.google.com/uc?export=download&id=18ruO491QJx5PJ01RNu_HHHnmZ9zGObeP"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card" data-search-term="Shareholding Share Summary excel annual books">
+                    <p class="template-name">Shareholding - Share Summary</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1ZTcaEyC6LA_YdRviuBrsj2pVxRxKwFoP"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card" data-search-term="Shareholding Share Certificate XLSM annual books">
+                    <p class="template-name">Shareholding - Share Certificate</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1QcrNrSAv8jN1g1vMrmYrB2DLKaiEUuOv"
+                        class="template-link">Open XLSM</a>
+                </div>
+                <div class="template-card" data-search-term="Tax Calculation Template XLSM annual books income tax">
+                    <p class="template-name">Tax Calculation</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1rV-CwW9-A9x5dwb9t6lFRfS0z_RnXcwn"
+                        class="template-link">Open XLSM</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="Tax Calculation Exempt Institutions Income Tax Computation excel annual books">
+                    <p class="template-name">Tax Calculation - Exempt Institutions</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1zv7mVRsauqZWN13nkTBw0AIrui8VCv4m"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="VAT Reconciliation Odds Evens XLSM annual books value added tax">
+                    <p class="template-name">VAT Reconciliation - Odds & Evens</p>
+                    <a href="https://drive.google.com/uc?export=download&id=19vPm_FNps5wMdloWCo9T-diTbCqyYS8-"
+                        class="template-link">Open XLSM</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="VAT Reconciliation Farming XLSM annual books value added tax">
+                    <p class="template-name">VAT Reconciliation - Farming</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1S8aWIvDYeiMdXGd30fFDSfOuzTVeNjW2"
+                        class="template-link">Open XLSM</a>
+                </div>
+            </div>
+        </section>
 
-    <div>
-        <table class="original-table">
-            <caption>Trust Templates</caption>
-            <thead>
-                <tr>
-                    <td id="theadtdwidth">TEMPLATE NAME</td>
-                    <td>ONLINE VERSION</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>ASPOA - Authority on SPOA by Tax Practitioner</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/file/d/1NjxApfuUSjUF5pW98IBGhRczuZK8yCHT/view?usp=drive_link">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Beneficial Ownership Register</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1BSP3FNip4FJ9io90WkqvQ5WAhjRfbgN4">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Distribution Split</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1nA909yNjN8VKZ3huuFgki0QC64hk9gRi">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Loan Certificate - Trustee Beneficiary</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1kZQr1mDqfbwuOV3hb5R7MhBA4adSyjhs">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Minutes of Meetings</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1l8_tiT76CNneoBcNv2ueK0qV38DfvpQ-">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Resolution - Approval of Expenditure</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1oCA-66s1CS5dcxThX-95xkFzQZexTKMc">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Resolution - Distribution Approval</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=17gzsFf3KhTmZmGGsQM8tJdtRwBT-8j5v">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Trust Tax Comp & Distribution Breakdown</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1zKvHuqOui8JvRfj9dfCry8IIqKFOFmZG">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Loans to Trusts - Section 7 C</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=11zjuk4WInrtPM2-pWSYzwnepmSrSfRFA">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>TPPOA - Special Power of Attorney to Tax Practitioner</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/file/d/1WFbStFviot9YH2tKIcSRu3-8IIRPFIrJ/view?usp=drive_link">Click
-                            Here</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <!-- Processing Templates Section -->
+        <section class="category-section" id="processing-templates-section">
+            <h2>Processing Templates</h2>
+            <div class="template-grid">
+                <div class="template-card" data-search-term="Pastel 12 Import Template V4 excel sage">
+                    <p class="template-name">Pastel 12 Import Template</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1-IZ_eFjO1p7kh5iZoUxVq2Z4ltg-DF_x"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card" data-search-term="Pastel Bank Manager CB Cashbook Import excel sage">
+                    <p class="template-name">Pastel Bank Manager - CB Import</p>
+                    <a href="https://drive.google.com/uc?export=download&id=16y7xSfjDI06iCsg0XNnTNgxAMnX23ksY"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="Pastel Bank Manager CB Cashbook Import Expert Version excel sage">
+                    <p class="template-name">Pastel Bank Manager - CB Import (Expert Version)</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1qaJJo5FoRSljMXtOnKWbMZzhNjuekQcA"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card" data-search-term="Solver Bank Recon Reconciliation Tool 50 Limit XLS excel">
+                    <p class="template-name">Solver - Bank Recon Tool - 50 Limit</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1kdsUcJQE3c3yVi76jw0pftnZ_FipTXiv"
+                        class="template-link">Open XLS</a>
+                </div>
+            </div>
+        </section>
 
-    <div>
-        <table class="original-table">
-            <caption>Letters to Clients</caption>
-            <thead>
-                <tr>
-                    <td id="theadtdwidth">TEMPLATE NAME</td>
-                    <td>ONLINE VERSION</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Management Letter</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=16uwvzUGPowqu8FbSJ-uDJAh-XONGEf6y">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Response to CIT Verification Letter - Client</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1UBJ-rAjkOhioPZsLs6ONPqexExQDO27I">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td colspan="2"></td>
-                </tr>
-                <tr>
-                    <td>New Client Form - Entity</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/uc?export=download&id=1eOlBha1VHbgDF9ZsjKrT-6EbEiJvrB7Z">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>New Client Form - Individual</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/uc?export=download&id=1N1pa6dtBssYPB5h-mTQTHlT1jK4JGrLX">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Privacy Notice - Client Declaration Form</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/uc?export=download&id=14TnYi2T0XhI7EXNsZVYQ81K_r7NW16lS">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td colspan="2"></td>
-                </tr>
-                <tr>
-                    <td>Tax Liability Letter</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1nq6MgOOT2XPw-qlUZAf0mC0WaxraYRjf">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td colspan="2"></td>
-                </tr>
-                <tr>
-                    <td>Important Information Letter</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/uc?export=download&id=1IP0OYGx8MFivPK0wXaPApanunavTpeQq">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Request for Information Letter</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1gKRuqFtOCoXFAKzPd0KX4bQkNBZLrBTT">Click
-                            Here</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <!-- Provisional Tax Templates Section -->
+        <section class="category-section" id="provisional-tax-section">
+            <h2>Provisional | Income Tax Templates</h2>
+            <div class="template-grid">
+                <p class="template-description">Provisional Tax Templates (Companies)</p>
+                <div class="template-card"
+                    data-search-term="Provisional Tax Comp Computation Companies Calculation excel IRP6">
+                    <p class="template-name">Provisional Tax Comp (Companies)</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1EHeyYeuNIKPqZEzHeia-16wTfCunI3gU"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card" data-search-term="Letter of Liability Companies IRP6 word doc">
+                    <p class="template-name">Letter of Liability (Companies)</p>
+                    <a href="https://drive.google.com/uc?export=download&id=18-bNHtGuQsXZUSc7rTt6ICHudjm-q98T"
+                        class="template-link">Open Word</a>
+                </div>
+                <div class="template-card" data-search-term="Email to Client Example Companies MSG outlook">
+                    <p class="template-name">Email to Client Example (Companies)</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1VaglwwTDxb4V_ZuQGATU_5sEPdiKwYqy"
+                        class="template-link">Open
+                        MSG</a>
+                </div>
 
-    <div>
-        <table class="original-table">
-            <caption>Other Useful Templates</caption>
-            <thead>
-                <tr>
-                    <td id="theadtdwidth">TEMPLATE NAME</td>
-                    <td>ONLINE VERSION</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Confirmation.Com Instructions</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/file/d/1bpWr0fo1IeyZDsneYqlO1EaaqzQWp0tl/view?usp=drive_link">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Deregistration of an Entity Process (Click to View)</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/file/d/1Qvmsy4y0KahNKLuvLv7F14706x82yb4Y/view?usp=drive_link">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Historic SARS Interest Calculator</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1N2LJJRTIBxENbuioPrlMGfDH5m0vQEj7">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>H&W Letterhead - Word</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1-9isCbg-17Xirnl6xuGp-hsvXDMIYC-W">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>KHFS Letterhead (NEW) - Word</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1ViKuMxyqbQRDYctJROD_a51iVa1fL0Yo">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>KHFS Letterhead (OLD) - Word</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1yNIZqGf8UHFI5U_xD-UiCPA-s5in2EZe">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Natural Person Owner Information - CIPC Beneficial Owner</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/uc?export=download&id=18ueePlnuleegBA7p9f6oJ6w3xZ2WNjwg">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Risk Register Template</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1OYFfSXwMXBD7humROjFU5EMd_fG-wi76">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>SARS Average Rates 2016 - 2024</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=19Du2Xb6FrKkHhZMaNl6IUbQ5X8RoD6j1">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>SARS Interest Template</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1do1dx_-BVL1-dmVEprFofJIoMzNp-kn8">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>SARS-CIT-Farming-schedule</td>
-                    <td id="center"><a target="_blank"
-                            href="https://drive.google.com/uc?export=download&id=14t_8lplUdk9MGaPkSUmNclLYkWSI1VCG">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Tax Checklist V1</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1iqk3BBQCMbYzRe6sNA69k6OKNgg6oY8o">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Tax Comp s10(1)(cN)</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1iFCZLLsYMGz3OZudKV6GxtQh3dHiggL4">Click
-                            Here</a></td>
-                </tr>
-                <tr>
-                    <td>Timesheet 2023</td>
-                    <td id="center"><a
-                            href="https://drive.google.com/uc?export=download&id=1Ut-P0j9Wcsmxr6rz8_m2QJ3R08Mcm4l-">Click
-                            Here</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                <p class="template-description">Provisional & Income Tax Templates (Individuals)</p>
+                <div class="template-card"
+                    data-search-term="Provisional Tax Comp Computation Individuals Calculation excel IRP6">
+                    <p class="template-name">Provisional Tax Comp (Individuals)</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1bG4gtw0FPOQGouocoix7jJLtEjtOCBFU"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="Provisional Tax Comp Computation Individuals Calculation BETA VERSION XLSM IRP6">
+                    <p class="template-name">Income Tax Comp (Individuals) - BETA VERSION</p>
+                    <a href="https://drive.google.com/uc?export=download&id=10__liX4GeAUmnKa-Vzxaz9P_d7__DUUb"
+                        class="template-link">Open
+                        XLSM</a>
+                </div>
 
+                <p class="template-description">Third Provisional Tax Templates</p>
+                <div class="template-card" data-search-term="Third Provisional Letter of Liability Companies word doc">
+                    <p class="template-name">Third Provisional - Letter of Liability (Companies)</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1fxZfiSQltQ95Xm7taqVBlNG8jDYAhqQH"
+                        class="template-link">Open Word</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="Third Provisional Letter of Liability Individuals word doc">
+                    <p class="template-name">Third Provisional - Letter of Liability (Individuals)</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1iEmdaSHZt0BjjFf8IgJ5V9VpC6IvFOkV"
+                        class="template-link">Open Word</a>
+                </div>
+                <div class="template-card" data-search-term="Assessed Tax Letter of Liability word doc">
+                    <p class="template-name">Assessed Tax Letter of Liability</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1C2FGSaED5pm-pbWgLWr4d3xvIhezohRN"
+                        class="template-link">Open Word</a>
+                </div>
+            </div>
+        </section>
 
+        <!-- Trust Templates Section -->
+        <section class="category-section" id="trust-templates-section">
+            <h2>Trust Templates</h2>
+            <div class="template-grid">
+                <div class="template-card"
+                    data-search-term="ASPOA Authority on SPOA Special Power of Attorney Tax Practitioner External Form PDF">
+                    <p class="template-name">ASPOA - Authority on SPOA by Tax Practitioner</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/file/d/1NjxApfuUSjUF5pW98IBGhRczuZK8yCHT/view?usp=drive_link"
+                        class="template-link">Open PDF</a>
+                </div>
+                <div class="template-card" data-search-term="Beneficial Ownership Register Template excel BO">
+                    <p class="template-name">Beneficial Ownership Register</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1BSP3FNip4FJ9io90WkqvQ5WAhjRfbgN4"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card" data-search-term="Distribution Split TEMPLATE excel beneficiary">
+                    <p class="template-name">Distribution Split</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1nA909yNjN8VKZ3huuFgki0QC64hk9gRi"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card" data-search-term="Loan Certificate Trustee Beneficiary Template word doc">
+                    <p class="template-name">Loan Certificate - Trustee Beneficiary</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1kZQr1mDqfbwuOV3hb5R7MhBA4adSyjhs"
+                        class="template-link">Open Word</a>
+                </div>
+                <div class="template-card" data-search-term="Minutes of Meetings Template word doc trustee">
+                    <p class="template-name">Minutes of Meetings</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1l8_tiT76CNneoBcNv2ueK0qV38DfvpQ-"
+                        class="template-link">Open Word</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="Resolution Approval of Expenditure Template word doc trustee">
+                    <p class="template-name">Resolution - Approval of Expenditure</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1oCA-66s1CS5dcxThX-95xkFzQZexTKMc"
+                        class="template-link">Open Word</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="Resolution Distribution Approval Beneficiary Template word doc trustee">
+                    <p class="template-name">Resolution - Distribution Approval</p>
+                    <a href="https://drive.google.com/uc?export=download&id=17gzsFf3KhTmZmGGsQM8tJdtRwBT-8j5v"
+                        class="template-link">Open Word</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="Trust Tax Comp Computation Distribution Breakdown excel trustee beneficiary">
+                    <p class="template-name">Trust Tax Comp & Distribution Breakdown</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1zKvHuqOui8JvRfj9dfCry8IIqKFOFmZG"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card" data-search-term="Loans to Trusts Section 7 C excel tax">
+                    <p class="template-name">Loans to Trusts - Section 7 C</p>
+                    <a href="https://drive.google.com/uc?export=download&id=11zjuk4WInrtPM2-pWSYzwnepmSrSfRFA"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="TPPOA Special Power of Attorney to Tax Practitioner External Form PDF trustee">
+                    <p class="template-name">TPPOA - Special Power of Attorney to Tax Practitioner</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/file/d/1WFbStFviot9YH2tKIcSRu3-8IIRPFIrJ/view?usp=drive_link"
+                        class="template-link">Open PDF</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Letters to Clients Section -->
+        <section class="category-section" id="letters-clients-section">
+            <h2>Letters to Clients</h2>
+            <div class="template-grid">
+                <div class="template-card" data-search-term="Management Letter Template word doc report">
+                    <p class="template-name">Management Letter</p>
+                    <a href="https://drive.google.com/uc?export=download&id=16uwvzUGPowqu8FbSJ-uDJAh-XONGEf6y"
+                        class="template-link">Open
+                        Word</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="Response to CIT Verification Letter Client word doc SARS tax">
+                    <p class="template-name">Response to CIT Verification Letter - Client</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1UBJ-rAjkOhioPZsLs6ONPqexExQDO27I"
+                        class="template-link">Open Word</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="New Client Form Entity Sole Prop Proprietor PDF onboarding">
+                    <p class="template-name">New Client Form - Entity</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/uc?export=download&id=1eOlBha1VHbgDF9ZsjKrT-6EbEiJvrB7Z"
+                        class="template-link">Open PDF</a>
+                </div>
+                <div class="template-card" data-search-term="New Client Form Individual PDF onboarding">
+                    <p class="template-name">New Client Form - Individual</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/uc?export=download&id=1N1pa6dtBssYPB5h-mTQTHlT1jK4JGrLX"
+                        class="template-link">Open PDF</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="Privacy Notice Client Declaration Form POPIA PAIA PDF consent">
+                    <p class="template-name">Privacy Notice - Client Declaration Form</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/uc?export=download&id=14TnYi2T0XhI7EXNsZVYQ81K_r7NW16lS"
+                        class="template-link">Open PDF</a>
+                </div>
+                <div class="template-card" data-search-term="Tax Liability Letter word doc SARS">
+                    <p class="template-name">Tax Liability Letter</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1nq6MgOOT2XPw-qlUZAf0mC0WaxraYRjf"
+                        class="template-link">Open
+                        Word</a>
+                </div>
+                <div class="template-card" data-search-term="Important Information Letter PDF notice">
+                    <p class="template-name">Important Information Letter</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/uc?export=download&id=1IP0OYGx8MFivPK0wXaPApanunavTpeQq"
+                        class="template-link">Open PDF</a>
+                </div>
+                <div class="template-card" data-search-term="Request for Information Letter word doc query">
+                    <p class="template-name">Request for Information Letter</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1gKRuqFtOCoXFAKzPd0KX4bQkNBZLrBTT"
+                        class="template-link">Open Word</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Other Useful Templates Section -->
+        <section class="category-section" id="other-useful-section">
+            <h2>Other Useful Templates</h2>
+            <div class="template-grid">
+                <div class="template-card" data-search-term="Confirmation.Com Bank Confirmation Instructions PDF audit">
+                    <p class="template-name">Confirmation.Com Instructions</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/file/d/1bpWr0fo1IeyZDsneYqlO1EaaqzQWp0tl/view?usp=drive_link"
+                        class="template-link">Open PDF</a>
+                </div>
+                <div class="template-card" data-search-term="Deregistration of an Entity Process TXT CIPC guide">
+                    <p class="template-name">Deregistration of an Entity Process</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/file/d/1Qvmsy4y0KahNKLuvLv7F14706x82yb4Y/view?usp=drive_link"
+                        class="template-link">Open TXT</a>
+                </div>
+                <div class="template-card" data-search-term="Historic SARS Interest Calculator excel tax">
+                    <p class="template-name">Historic SARS Interest Calculator</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1N2LJJRTIBxENbuioPrlMGfDH5m0vQEj7"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card" data-search-term="H&W Letterhead Word Holdstock Watson branding doc">
+                    <p class="template-name">H&W Letterhead - Word</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1-9isCbg-17Xirnl6xuGp-hsvXDMIYC-W"
+                        class="template-link">Open
+                        Word</a>
+                </div>
+                <div class="template-card" data-search-term="KHFS Letterhead NEW Word branding doc">
+                    <p class="template-name">KHFS Letterhead (NEW) - Word</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1ViKuMxyqbQRDYctJROD_a51iVa1fL0Yo"
+                        class="template-link">Open Word</a>
+                </div>
+                <div class="template-card" data-search-term="KHFS Letterhead OLD Word branding doc">
+                    <p class="template-name">KHFS Letterhead (OLD) - Word</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1yNIZqGf8UHFI5U_xD-UiCPA-s5in2EZe"
+                        class="template-link">Open Word</a>
+                </div>
+                <div class="template-card"
+                    data-search-term="Natural Person Owner Information CIPC Beneficial Owner PDF BO">
+                    <p class="template-name">Natural Person Owner Information - CIPC Beneficial Owner</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/uc?export=download&id=18ueePlnuleegBA7p9f6oJ6w3xZ2WNjwg"
+                        class="template-link">Open PDF</a>
+                </div>
+                <div class="template-card" data-search-term="Risk Register Template excel management audit">
+                    <p class="template-name">Risk Register Template</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1OYFfSXwMXBD7humROjFU5EMd_fG-wi76"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card" data-search-term="SARS Average Rates 2016 2024 excel tax forex exchange">
+                    <p class="template-name">SARS Average Rates 2016 - 2025</p>
+                    <a href="https://drive.google.com/uc?export=download&id=19Du2Xb6FrKkHhZMaNl6IUbQ5X8RoD6j1"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card" data-search-term="SARS Interest Template excel tax calculation">
+                    <p class="template-name">SARS Interest Template</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1do1dx_-BVL1-dmVEprFofJIoMzNp-kn8"
+                        class="template-link">Open Excel</a>
+                </div>
+                <div class="template-card" data-search-term="SARS CIT Farming schedule PDF tax agriculture">
+                    <p class="template-name">SARS-CIT-Farming-schedule</p>
+                    <a target="_blank"
+                        href="https://drive.google.com/uc?export=download&id=14t_8lplUdk9MGaPkSUmNclLYkWSI1VCG"
+                        class="template-link">Open PDF</a>
+                </div>
+                <div class="template-card" data-search-term="Tax Checklist V1 XLSM audit compliance">
+                    <p class="template-name">Tax Checklist V1</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1iqk3BBQCMbYzRe6sNA69k6OKNgg6oY8o"
+                        class="template-link">Open
+                        XLSM</a>
+                </div>
+                <div class="template-card" data-search-term="Tax Comp Computation s10(1)(cN) excel calculation">
+                    <p class="template-name">Tax Comp s10(1)(cN)</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1iFCZLLsYMGz3OZudKV6GxtQh3dHiggL4"
+                        class="template-link">Open
+                        Excel</a>
+                </div>
+                <div class="template-card" data-search-term="Timesheet 2023 excel staff tracking billing">
+                    <p class="template-name">Timesheet 2023</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1Ut-P0j9Wcsmxr6rz8_m2QJ3R08Mcm4l-"
+                        class="template-link">Open
+                        Excel</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- </div> End #allTemplates (This div was removed) -->
+
+        <footer>
+            <!-- Optional footer -->
+            © Holdstock & Watson | Template Hub
+        </footer>
+
+    </div> <!-- End .container -->
 
     <script>
-        function filterTable()
+        // --- Jump to Section Dropdown Functionality ---
+        document.addEventListener('DOMContentLoaded', () =>
+        {
+            const jumpButton = document.getElementById('jumpToSectionBtn');
+            const dropdownContent = document.getElementById('jumpToSectionDropdown');
+            const sections = document.querySelectorAll('.category-section'); // Get all sections
+
+            // Populate the dropdown
+            sections.forEach(section =>
+            {
+                const titleElement = section.querySelector('h2');
+                const sectionId = section.getAttribute('id'); // Get the manually added ID
+                const titleText = titleElement ? titleElement.textContent.trim() : 'Unnamed Section';
+
+                if (sectionId && titleElement)
+                { // Only add if section has ID and title
+                    const link = document.createElement('a');
+                    link.href = `#${sectionId}`;
+                    link.textContent = titleText;
+
+                    link.addEventListener('click', (e) =>
+                    {
+                        e.preventDefault(); // Prevent default jump
+                        const targetSection = document.getElementById(sectionId);
+                        if (targetSection)
+                        {
+                            // Ensure section is visible if hidden by search (optional, might reveal filtered sections)
+                            // targetSection.classList.remove('hidden');
+
+                            targetSection.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start' // Align top of section to top of viewport
+                            });
+                        }
+                        dropdownContent.classList.remove('show'); // Close dropdown
+                        jumpButton.classList.remove('active'); // Deactivate button style
+                    });
+                    dropdownContent.appendChild(link);
+                } else
+                {
+                    if (!sectionId) console.warn("Section missing ID:", titleElement?.textContent);
+                    if (!titleElement) console.warn("Section missing h2:", sectionId);
+                }
+            });
+
+            // Toggle dropdown on button click
+            jumpButton.addEventListener('click', (e) =>
+            {
+                e.stopPropagation(); // Prevent click from immediately closing dropdown via window listener
+                dropdownContent.classList.toggle('show');
+                jumpButton.classList.toggle('active'); // Toggle active style for button/arrow
+            });
+
+            // Close dropdown if clicked outside
+            window.addEventListener('click', (e) =>
+            {
+                // Close if the click is not on the button and not inside the dropdown
+                if (!jumpButton.contains(e.target) && !dropdownContent.contains(e.target))
+                {
+                    if (dropdownContent.classList.contains('show'))
+                    {
+                        dropdownContent.classList.remove('show');
+                        jumpButton.classList.remove('active');
+                    }
+                }
+            });
+        });
+
+        // --- Search Functionality (Existing) ---
+        function filterTemplates()
         {
             const input = document.getElementById('searchInput');
-            const filter = input.value.toUpperCase();
-            const tables = document.querySelectorAll('.original-table'); // Notice this line
+            const filter = input.value.toUpperCase().trim();
+            const filteredResultsContainer = document.getElementById('filteredResults');
+            const allSections = document.querySelectorAll('.category-section'); // Select all sections, including the lists one
+            const noResultsElement = document.getElementById('noResults'); // Reference potential no results message
 
-            let filteredData = [];
-
-            tables.forEach((table) =>
+            // Clear previous no results message if it exists
+            if (noResultsElement)
             {
-                const rows = table.querySelectorAll('tbody tr');
-                rows.forEach((row) =>
+                noResultsElement.remove();
+            }
+
+            let filteredCardsHTML = '';
+            let resultsFound = false;
+
+            // If search input is empty, show all original sections and clear filtered results
+            if (filter === '')
+            {
+                allSections.forEach(section =>
                 {
-                    const cell = row.querySelector('td:first-child');
-                    if (cell)
+                    section.classList.remove('hidden'); // Make sure all sections are visible
+                    // Also make sure all cards within the section are visible
+                    section.querySelectorAll('.template-card').forEach(card => card.style.display = '');
+                });
+                filteredResultsContainer.innerHTML = '';
+                filteredResultsContainer.style.display = 'none'; // Hide the results container
+                return; // Stop execution here
+            }
+
+            // If search input has text, prepare to show filtered results
+            filteredResultsContainer.style.display = 'block'; // Show the results container
+            allSections.forEach(section =>
+            {
+                section.classList.add('hidden'); // Hide all original sections
+            });
+
+            // Iterate through ALL cards in ALL sections (including the Google Links)
+            allSections.forEach(section =>
+            {
+                section.querySelectorAll('.template-card').forEach(card =>
+                {
+                    const templateNameElement = card.querySelector('.template-name');
+                    const templateDescElement = card.querySelector('.template-card-description'); // Get description element
+                    const searchTerms = card.dataset.searchTerm || ''; // Get data-search-term attribute
+
+                    // Combine searchable text: name, description, and explicit search terms
+                    let searchableText = templateNameElement ? (templateNameElement.textContent || templateNameElement.innerText).toUpperCase() : '';
+                    searchableText += templateDescElement ? ' ' + (templateDescElement.textContent || templateDescElement.innerText).toUpperCase() : '';
+                    searchableText += ' ' + searchTerms.toUpperCase();
+
+
+                    if (searchableText.includes(filter))
                     {
-                        const text = cell.textContent || cell.innerText;
-                        if (text.toUpperCase().indexOf(filter) > -1)
-                        {
-                            filteredData.push(row.outerHTML);
-                        }
+                        filteredCardsHTML += card.outerHTML; // Add the matching card's HTML
+                        resultsFound = true;
                     }
                 });
             });
 
-            const filteredTable = `<table>
-                                        <caption>Filtered Results</caption>
-                                        <thead>
-                                            <tr>
-                                                <td id="theadtdwidth">TEMPLATE NAME</td>
-                                                <td>ONLINE VERSION</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            ${filteredData.join('')}
-                                        </tbody>
-                                    </table>`;
 
-            if (filteredData.length > 0)
+            // Display the filtered results
+            if (resultsFound)
             {
-                document.getElementById('filteredResults').innerHTML = filteredTable;
+                filteredResultsContainer.innerHTML = `
+                    <h2>Search Results for "${input.value}"</h2>
+                    <div class="template-grid">
+                        ${filteredCardsHTML}
+                    </div>`;
             } else
             {
-                document.getElementById('filteredResults').innerHTML = "No results found";
+                filteredResultsContainer.innerHTML = `<p id="noResults" style="text-align: center; margin-top: 20px; padding: 15px; background-color: rgba(255,255,255,0.8); border-radius: 8px;">No items found matching "${input.value}".</p>`;
             }
         }
+
+        // Initially hide the filtered results container on load
+        document.addEventListener('DOMContentLoaded', () =>
+        {
+            const filteredResultsContainer = document.getElementById('filteredResults');
+            if (filteredResultsContainer)
+            { // Check if element exists before styling
+                filteredResultsContainer.style.display = 'none';
+            }
+        });
+
     </script>
 
 </body>
