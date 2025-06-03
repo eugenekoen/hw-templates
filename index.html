@@ -1213,15 +1213,17 @@
                 section.querySelectorAll('.template-card').forEach(card =>
                 {
                     const templateNameElement = card.querySelector('.template-name');
-                    const templateDescElement = card.querySelector('.template-card-description'); // Get description element
-                    const searchTerms = card.dataset.searchTerm || ''; // Get data-search-term attribute
+                    // const templateDescElement = card.querySelector('.template-card-description'); // No longer used for search
+                    // const searchTerms = card.dataset.searchTerm || ''; // No longer used for search
 
-                    // Combine searchable text: name, description, and explicit search terms
-                    let searchableText = templateNameElement ? (templateNameElement.textContent || templateNameElement.innerText).toUpperCase() : '';
-                    searchableText += templateDescElement ? ' ' + (templateDescElement.textContent || templateDescElement.innerText).toUpperCase() : '';
-                    searchableText += ' ' + searchTerms.toUpperCase();
+                    // Only search within the template name's text content
+                    let searchableText = '';
+                    if (templateNameElement)
+                    {
+                        searchableText = (templateNameElement.textContent || templateNameElement.innerText).toUpperCase();
+                    }
 
-
+                    // Check if the template name contains the filter text
                     if (searchableText.includes(filter))
                     {
                         filteredCardsHTML += card.outerHTML; // Add the matching card's HTML
